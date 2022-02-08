@@ -1,0 +1,38 @@
+.title {
+
+    font-size: 7rem;
+    color: white;
+    position: relative;
+
+}
+
+.image {
+    width: 100%;
+
+}
+
+.global {
+    background-color: rgb(0, 0, 0, 0.15);
+}
+
+.title2 {
+    font-size: 4rem;
+}
+
+
+.header {
+    background-image: url("../assets/hopital.jpg");
+    height: 75vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.navbar {
+    background-color: rgb(0, 0, 0, 0.15);
+}
+
+.footer {
+    background-color: rgb(0, 0, 0, 0.15);
+    height: 10vh;
+}
