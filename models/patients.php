@@ -89,6 +89,10 @@ class Patients extends DataBase
 
     }
 
+    /**
+     * Permet de supprimer un profil
+     * @param string id
+     */
     public function deleteProfile($id)
     {
 
@@ -102,6 +106,10 @@ class Patients extends DataBase
 
     }
 
+    /**
+     * Permet de verifier si l'email existe deja dans la bdd
+     * @param string mail
+     */
     public function emailDuplicate($mailCheck)
     {
         $base = $this->connectDb();
@@ -114,7 +122,29 @@ class Patients extends DataBase
         return $stmt->fetch();
     }
 
+    public function DuplicateRdv($mailCheck,$lastname,$firstname)
+    {
+        $base = $this->connectDb();
+        $query = "SELECT * FROM `patients` WHERE `mail` = :mailCheck AND `lastname` = :lastname AND `firstname` = :firstname";
 
+        $stmt = $base->prepare($query);
+        $stmt->bindValue(':mailCheck', $mailCheck, PDO::PARAM_STR);
+        $stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
+        $stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+
+    /**
+     * Permet de creer un rdv
+     * @param string lastname
+     * @param string firstname
+     * @param string date
+     * @param string time
+     * @param string mail
+     */
     public function addAppt(string $lastnameRdv, string $firstnameRdv,string $dateRdv,string $timeRdv ,string $mailRdv) : void
     {    
 
@@ -139,6 +169,9 @@ class Patients extends DataBase
 
     }
 
+    /**
+     * Permet d'afficher tous les rdv
+     */
     public function getRdv()
     {
         $base = $this->connectDb();
@@ -151,5 +184,106 @@ class Patients extends DataBase
     }
 
 
+    /**
+     * Permet de separer l'heure et la date en deux colonnes
+     */
+    public function splitHour($id)
+    {
+        $base = $this->connectDb();
+        $query ="SELECT (SELECT substr(dateHour,1,10)) as dateRdv, (SELECT substr(dateHour,11,18)) as timeRdv FROM appointments WHERE id=:id";
 
+        $resultQuery = $base->prepare($query);
+        $resultQuery->bindValue(':id', $id, PDO::PARAM_STR);
+        $resultQuery->execute();
+        return $resultQuery->fetchAll();
+    }
+
+
+    /**
+     * Permet d'afficher tous les details d'un RDV
+     */
+    public function patientRdv($rendezVousId)
+    {
+        $base = $this->connectDb();
+
+        $query = "SELECT * FROM `appointments`
+        INNER JOIN `patients` ON patients.id = appointments.idPatients
+        WHERE appointments.id = :rendezVousId";
+
+        $resultQuery = $base->prepare($query);
+        $resultQuery->bindValue(':rendezVousId', $rendezVousId, PDO::PARAM_STR);
+        $resultQuery->execute();
+        return $resultQuery->fetchAll();
+    }
+
+
+
+
+    /**
+     * Permet de modifier les rendez-vous
+     * @param string lastname
+     * @param string firstame
+     * @param string date
+     * @param string time
+     * @param string id
+     */
+    public function modifyRdv($lastname, $firstname,$date,$time,$id)
+    {    
+
+        $base = $this->connectDb(); // on fait appel a la BDD dans la class DataBase
+
+        // $base->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+
+        $query = "UPDATE `patients`
+        INNER JOIN appointments ON patients.id = appointments.idPatients
+        SET `lastname` = :lastname, `firstname` = :firstname, `dateHour` = (SELECT group_concat(:dateRdv,',', :timeRdv))
+        WHERE appointments.id = :id";
+
+        $stmt = $base->prepare($query); // on prepare la requete(sécurité)
+
+
+        //on définit les parametres
+
+
+        $stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
+        $stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
+        $stmt->bindValue(':dateRdv', $date, PDO::PARAM_STR);
+        $stmt->bindValue(':timeRdv', $time, PDO::PARAM_STR);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+
+    }
+
+
+    /**
+     * Permet de supprimer les rendez_vous
+     * @param string id
+     */
+    public function deleteRdv($id)
+    {
+
+        $base = $this->connectDb();
+        $query = "DELETE FROM `appointments` WHERE `id`= :id";
+
+        $stmt = $base->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+    }
+
+    /**
+     * Permet d'afficher tous les rdv d'un profil
+     */
+    public function getProfileRdv($id)
+    {
+        $base = $this->connectDb();
+        $query ="SELECT dateHour FROM `patients`
+        INNER JOIN appointments ON patients.id = appointments.idPatients WHERE idPatients = :id";
+
+        $resultQuery = $base->prepare($query);
+        $resultQuery->bindValue(':id', $id, PDO::PARAM_STR);
+        $resultQuery->execute();
+        return $resultQuery->fetchAll();
+    }
 }

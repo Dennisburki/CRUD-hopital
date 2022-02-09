@@ -6,31 +6,34 @@ require_once('../models/patients.php');
 
 if(isset($_GET['id'])){
 
-    $profileId = $_GET['id'];
-    $patientObj = new Patients();
-    $patientArray = $patientObj->patientProfil($profileId);
+    $rendezVousId = $_GET['id'];
+    $rendezVousObj = new Patients();
+    $rendezVousArray = $rendezVousObj->patientRdv($rendezVousId);
 
     $id = $_GET['id'];
-    $profileRdvObj = new Patients();
-    $profileRdvArray = $profileRdvObj->getProfileRdv($id);
+    $splitObj = new Patients();
+    $splitArray = $splitObj->splitHour($id);
+
+
 }
+
 
 if (isset($_POST['modify'])) {
 
     //on insere les lignes avec les valeurs
     $lastname = $_POST['lastname'];
     $firstname = $_POST['firstname'];
-    $birthdate = $_POST['birthdate'];
-    $phone = $_POST['phone'];
-    $mail = $_POST['email'];
+    $date = $_POST['dateRdv'];
+    $time = $_POST['timeRdv'];
+    
     $id = $_GET['id'];
     $modifyObj = new Patients();
-    $modifyObj->modifyProfile($lastname, $firstname,$birthdate,$phone,$mail,$id);
+    $modifyObj->modifyRdv($lastname, $firstname,$date,$time,$id);
 }
 
 if (isset($_POST['delete'])) {
 
     $id = $_GET['id'];
     $deleteObj = new Patients();
-    $deleteObj->deleteProfile($id);
+    $deleteObj->deleteRdv($id);
 }

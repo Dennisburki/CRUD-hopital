@@ -9,7 +9,7 @@ require_once('../models/patients.php');
 $regexName = "/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,25}$/u";
 $regexPhone = "/^0[6-7]([-. ]?[0-9]{2}){4}$/u";
 $arrayErrorsRdv = [];
-$checkMail= [];
+$checkMail = [];
 
 if (!empty($_POST)) {
 
@@ -60,15 +60,6 @@ if (!empty($_POST)) {
             $checkMail["emailRdv"] = "Email existant";
         }
     }
-    //*************************************************POUR LE TELEPHONE************************************************************************
-
-    if (isset($_POST["phoneRdv"])) {
-        if (empty($_POST["phoneRdv"])) {
-            $arrayErrorsRdv["phoneRdv"] = "Veuillez indiquer votre numéro de téléphone.";
-        } elseif (!preg_match($regexPhone, $_POST["phoneRdv"])) {
-            $arrayErrorsRdv["phoneRdv"] = "Format invalide";
-        }
-    }
 }
 //**********************************************FIN DES CONTROLES DU FORMULAIRE AJOUT PATIENT**********************************************
 
@@ -80,24 +71,31 @@ if (!empty($_POST)) {
 if (isset($_POST['g-recaptcha-response'])) {
     $captcha = $_POST['g-recaptcha-response'];
 
-    if(isset($_POST['g-recaptcha-response']) && empty($_POST['g-recaptcha-response'])) {
+    if (isset($_POST['g-recaptcha-response']) && empty($_POST['g-recaptcha-response'])) {
 
-    $arrayErrors['captcha'] = "Veuillez prouver que vous n'êtes pas un robot";
-}
-  
+        $arrayErrors['captcha'] = "Veuillez prouver que vous n'êtes pas un robot";
+    }
 }
 
 $secretKey = "6LfX4WIeAAAAAAMNiI2CYDCjdkEnRKQenPSoo9Fo";
 $ip = $_SERVER['REMOTE_ADDR'];
 // post request to server
-$url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha??"");
+$url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . urlencode($secretKey) .  '&response=' . urlencode($captcha ?? "");
 $response = file_get_contents($url);
 $responseKeys = json_decode($response, true);
 // should return JSON with success as true
 if ($responseKeys["success"]) {
-
-} elseif(isset($_POST['g-recaptcha-response']) && empty($_POST['g-recaptcha-response'])) {
+} elseif (isset($_POST['g-recaptcha-response']) && empty($_POST['g-recaptcha-response'])) {
     $arrayErrorsRdv['captcha'] = "Veuillez prouver que vous n'êtes pas un robot";
+}
+//********************************************************VERIF SI PATIENT PAS ENREGISTRE********************************************************
+
+if (isset($_POST['addRdv'])) {
+    $duplicateRdvObj = new Patients();
+    if ($duplicateRdvObj->duplicateRdv($_POST['emailRdv'], $_POST['lastnameRdv'], $_POST['firstnameRdv']) == FALSE) {
+
+        $arrayErrorsRdv["unknown"] = "Ce patient n'est pas enregistré";
+    }
 }
 
 //***************************************LANCEMENT DE LA FONCTION POUR INSERER DANS LA BDD************************************************
@@ -106,12 +104,11 @@ if (empty($arrayErrorsRdv) && isset($_POST['addRdv'])) {
     //on insere les lignes avec les valeurs
     $lastnameRdv = htmlspecialchars(ucwords(trim($_POST['lastnameRdv']))); // speciialchars pour eviter l'injection de script, et trim pour enlever les espaces de debut et fin
     $firstnameRdv = htmlspecialchars(ucwords(trim($_POST['firstnameRdv']))); // ucwords pour mettre la 1ere lettre en majuscule
-    $dateRdv =trim($_POST['dateRdv']);
+    $dateRdv = trim($_POST['dateRdv']);
     $timeRdv = trim($_POST['timeRdv']);
     $mailRdv = htmlspecialchars(trim($_POST['emailRdv']));
     $rdvObj = new Patients();
-    $rdvObj->addAppt($lastnameRdv,$firstnameRdv,$dateRdv,$timeRdv ,$mailRdv);
-
-    
+    $rdvObj->addAppt($lastnameRdv, $firstnameRdv, $dateRdv, $timeRdv, $mailRdv);
 }
+
 

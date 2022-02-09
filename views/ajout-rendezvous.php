@@ -17,19 +17,19 @@ var_dump($arrayErrorsRdv);
     <link rel="stylesheet" href="../assets/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src='https://www.google.com/recaptcha/api.js' async defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 </head>
 
 <body>
 
-    <div class="global">
+<div class="global">
         <div class="text-center fw-bold header">
             <a href="home.php">
                 <h1 class="text-center fw-bold title">Hôpital Velpo</h1>
             </a>
         </div>
-
 
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid m-0">
@@ -60,8 +60,12 @@ var_dump($arrayErrorsRdv);
                             </div>
                         </li>
                         <li class="nav-item col-lg-3 d-lg-flex justify-content-lg-end">
-                            <div class="text-start text-lg-center">
-                                <a class="menu nav-link active text-white" aria-current="page" href="virus.php"><span class="text text-dark">Covid-19</span></a>
+                        <div class="text-start text-lg-center">
+                                <a class="menu nav-link active text-white" aria-current="page" href="liste-rendezvous.php"><span class="text-dark">
+                                        <form action="liste-rendezvous.php" method="POST">
+                                            <input type="submit" name="showRdv" class="btn text-dark" value="Voir la liste des Rendez-vous">
+                                        </form>
+                                    </span></a>
                             </div>
                         </li>
                     </ul>
@@ -89,6 +93,7 @@ var_dump($arrayErrorsRdv);
             </div>
 
             <h1 class="text-center fw-bold pb-5 pt-1">Formulaire de Rendez-vous</h1>
+            <div class="text-center text-danger fw-bold"><?= $arrayErrorsRdv["unknown"] ?? "" ?></div>
 
             <div class="row text-center justify-content-center ">
                 <form action="ajout-rendezvous.php" method="POST" class="col-lg-6 row container-fluid border border-dark justify-content-center">

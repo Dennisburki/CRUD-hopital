@@ -29,10 +29,10 @@ require_once('../controllers/controllerProfilPatient.php');
 
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid m-0">
-                <button class="navbar-toggler border-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon text-dark pt-1 pe-5">Menu</span>
+                <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon text-white pt-1 pe-5">Menu</span>
                 </button>
-                <a href="../index.php" class="navbar-toggler text-dark border border-dark d-flex d-lg-none text-decoration-none">Accueil</a>
+                <a href="../index.php" class="navbar-toggler text-white border border-dark d-flex d-lg-none text-decoration-none">Accueil</a>
 
                 <div class="collapse navbar-collapse text-start" id="navbarNav">
                     <ul class="navbar-nav container row">
@@ -48,7 +48,7 @@ require_once('../controllers/controllerProfilPatient.php');
                         </li>
                         <li class="nav-item col-lg-3 d-lg-flex justify-content-lg-end">
                             <div class="text-start text-lg-center">
-                                <a class="menu nav-link active text-dark" aria-current="page" href="liste-patients.php"><span class="text-dark">
+                                <a class="menu nav-link active text-white" aria-current="page" href="liste-patients.php"><span class="text-dark">
                                         <form action="liste-patients.php" method="POST">
                                             <input type="submit" name="showPatients" class="btn text-dark" value="Voir la liste des clients">
                                         </form>
@@ -57,7 +57,11 @@ require_once('../controllers/controllerProfilPatient.php');
                         </li>
                         <li class="nav-item col-lg-3 d-lg-flex justify-content-lg-end">
                             <div class="text-start text-lg-center">
-                                <a class="menu nav-link active text-dark" aria-current="page" href="virus.php"><span class="text text-dark">Covid-19</span></a>
+                                <a class="menu nav-link active text-white" aria-current="page" href="liste-rendezvous.php"><span class="text-dark">
+                                        <form action="liste-rendezvous.php" method="POST">
+                                            <input type="submit" name="showRdv" class="btn text-dark" value="Voir la liste des Rendez-vous">
+                                        </form>
+                                    </span></a>
                             </div>
                         </li>
                     </ul>
@@ -144,6 +148,15 @@ require_once('../controllers/controllerProfilPatient.php');
             }
         } ?>
 
+        <div class="text-center pt-3 pb-3 h1">Rendez-vous à venir:</div>
+        <div class="text-center" >
+            <ul class="d-inline-block">
+                <?php foreach ($profileRdvArray as $rdv) { ?>
+                    <li><?= $rdv['dateHour'] ?></li>
+
+                <?php } ?>
+            </ul>
+        </div>
         <footer class="footer">
         </footer>
     </div>

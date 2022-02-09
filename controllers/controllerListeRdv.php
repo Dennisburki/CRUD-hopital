@@ -9,3 +9,16 @@ if(isset($_POST['showRdv'])){
     $rdvArray = $rdvObj->getRdv();
 
 }
+
+if(isset($_POST['modify'])){
+    $rdvObj = new Patients();
+    $rdvArray = $rdvObj->getRdv();
+
+}
+
+if (isset($_POST['delete'])) {
+
+    $id = $_GET['id'];
+    $deleteObj = new Patients();
+    $deleteObj->deleteRdv($id);
+}
