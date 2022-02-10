@@ -27,7 +27,7 @@ require_once('../models/dataBase.php');
         </div>
 
 
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg bg-secondary">
             <div class="container-fluid m-0">
                 <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon text-white pt-1 pe-5">Menu</span>
@@ -38,30 +38,30 @@ require_once('../models/dataBase.php');
                     <ul class="navbar-nav container row">
                         <li class="nav-item col-lg-3 d-lg-flex justify-content-lg-end ">
                             <div class="text-start text-lg-center">
-                                <a class="menu nav-link active" aria-current="page" href="../index.php"><span class="text text-dark">Accueil</span></a>
+                                <a class="menu nav-link active" aria-current="page" href="../index.php"><span class="text fs-5 btn fw-bold text-white">Accueil</span></a>
                             </div>
                         </li>
                         <li class="nav-item col-lg-3 d-lg-flex justify-content-lg-end">
                             <div class="text-start text-lg-center">
-                                <a class="menu nav-link active  text-dark" aria-current="page" href="ajout-patient.php"><span class="text text-dark">Ajouter un client</span></a>
+                                <a class="menu nav-link active  text-dark" aria-current="page" href="ajout-patient.php"><span class="text fs-5 btn fw-bold text-white">Ajouter un client</span></a>
                             </div>
                         </li>
                         <li class="nav-item col-lg-3 d-lg-flex justify-content-lg-end">
                             <div class="text-start text-lg-center">
-                                <a class="menu nav-link active text-white" aria-current="page" href="liste-patients.php"><span class="text-dark">
-                                        <form action="liste-patients.php" method="POST">
-                                            <input type="submit" name="showPatients" class="btn text-dark" value="Voir la liste des clients">
-                                        </form>
-                                    </span></a>
+                                <a class="menu nav-link active text-white" aria-current="page" href="liste-patients.php">
+                                    <form action="liste-patients.php" method="POST">
+                                        <input type="submit" name="showPatients" value="Liste des clients" class="text fs-5 btn fw-bold text-white">
+                                    </form>
+                                </a>
                             </div>
                         </li>
                         <li class="nav-item col-lg-3 d-lg-flex justify-content-lg-end">
-                        <div class="text-start text-lg-center">
-                                <a class="menu nav-link active text-white" aria-current="page" href="liste-rendezvous.php"><span class="text-dark">
-                                        <form action="liste-rendezvous.php" method="POST">
-                                            <input type="submit" name="showRdv" class="btn text-dark" value="Voir la liste des Rendez-vous">
-                                        </form>
-                                    </span></a>
+                            <div class="text-start text-lg-center">
+                                <a class="menu nav-link active text-white" aria-current="page" href="liste-rendezvous.php">
+                                    <form action="liste-rendezvous.php" method="POST">
+                                        <input type="submit" name="showRdv" class="text fs-5 btn fw-bold text-white" value="Liste des Rendez-vous">
+                                    </form>
+                                </a>
                             </div>
                         </li>
                     </ul>
@@ -69,12 +69,17 @@ require_once('../models/dataBase.php');
             </div>
         </nav>
         <p class="text-center fw-bold title2 pt-3">Bienvenue sur le site de l'Hôpital Velpo</p>
-
+        <div class="text-center">
+            <img src="../assets/doctor.jpg" alt="">
+        </div>
 
         <h3 class="text-center">Veuillez choisir une des actions ci-dessous</h3>
 
         <div class="text-center row justify-content-center pb-5">
-            <a href="ajout-patient.php" class="mt-3 btn btn-outline-dark col-lg-2">Ajouter un client</a>
+            <div>
+
+                <a href="ajout-patient.php" class="mt-3 btn btn-outline-dark col-lg-2">Ajouter un client</a>
+            </div>
             <form action="liste-patients.php" method="POST" class="col-lg-2">
                 <input type="submit" name="showPatients" class="mt-3 btn btn-outline-dark" value="Voir la liste des clients">
             </form>

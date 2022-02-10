@@ -64,21 +64,21 @@ class Patients extends DataBase
     public function modifyProfile($lastname, $firstname,$birthdate,$phone,$mail,$id)
     {    
 
-        $base = $this->connectDb(); // on fait appel a la BDD dans la class DataBase
+        $base = $this->connectDb(); // on fait appel a la BDD dans la class DataBase, this refere a l'objet actuel
 
         // $base->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
 
         $query = "UPDATE `patients`
         SET `lastname` = :lastname, `firstname`= :firstname,`birthdate` = :birthdate, `phone` = :phone, `mail` = :mail WHERE `id` = :id";
 
-        $stmt = $base->prepare($query); // on prepare la requete(sécurité)
+        $stmt = $base->prepare($query); // on prepare la requete car il y a des marqueurs, donc il faudra parametrer, ca evite les injections sql(sécurité)
 
 
         //on définit les parametres
 
         var_dump($lastname, $firstname,$birthdate,$phone,$mail,$id);
 
-        $stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
+        $stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR); // bindvalue securise la requete
         $stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
         $stmt->bindValue(':birthdate', $birthdate, PDO::PARAM_STR);
         $stmt->bindValue(':phone', $phone, PDO::PARAM_STR);
@@ -122,13 +122,12 @@ class Patients extends DataBase
         return $stmt->fetch();
     }
 
-    public function DuplicateRdv($mailCheck,$lastname,$firstname)
+    public function DuplicateRdv($lastname,$firstname)
     {
         $base = $this->connectDb();
-        $query = "SELECT * FROM `patients` WHERE `mail` = :mailCheck AND `lastname` = :lastname AND `firstname` = :firstname";
+        $query = "SELECT * FROM `patients` WHERE `lastname` = :lastname AND `firstname` = :firstname";
 
         $stmt = $base->prepare($query);
-        $stmt->bindValue(':mailCheck', $mailCheck, PDO::PARAM_STR);
         $stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
         $stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
 
@@ -143,9 +142,8 @@ class Patients extends DataBase
      * @param string firstname
      * @param string date
      * @param string time
-     * @param string mail
      */
-    public function addAppt(string $lastnameRdv, string $firstnameRdv,string $dateRdv,string $timeRdv ,string $mailRdv) : void
+    public function addAppt(string $lastnameRdv, string $firstnameRdv,string $dateRdv,string $timeRdv) : void
     {    
 
         $base = $this->connectDb(); // on fait appel a la BDD dans la class DataBase
@@ -153,7 +151,7 @@ class Patients extends DataBase
         // $base->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
 
         $query = "INSERT INTO `appointments` (`dateHour`,`idPatients`)
-        SELECT group_concat(:dateRdv, ',', :timeRdv) as `test`, (select `id` FROM `patients` WHERE `lastname` = :lastname AND `firstname` = :firstname AND `mail` = :mail)"; // les : devant sont des marqueurs nominatifs, auxquels on va attribuer des variables et donc une valeur
+        SELECT group_concat(:dateRdv, ',', :timeRdv) as `test`, (select `id` FROM `patients` WHERE `lastname` = :lastname AND `firstname` = :firstname)"; // les : devant sont des marqueurs nominatifs, auxquels on va attribuer des variables et donc une valeur
         //le ? est un marqueur, le : est un marqueur nominatif
 
         $stmt = $base->prepare($query); // on prepare la requete(sécurité) pour eviter les injections SQL
@@ -163,10 +161,9 @@ class Patients extends DataBase
         $stmt->bindValue(':timeRdv', $timeRdv, PDO::PARAM_STR);
         $stmt->bindValue(':lastname', $lastnameRdv, PDO::PARAM_STR);
         $stmt->bindValue(':firstname', $firstnameRdv, PDO::PARAM_STR);
-        $stmt->bindValue(':mail', $mailRdv, PDO::PARAM_STR); // le param str veut dire qu'on attend un string ca evite les injections sql
+       // le param str veut dire qu'on attend un string ca evite les injections sql
 
         $stmt->execute();
-
     }
 
     /**
@@ -215,9 +212,6 @@ class Patients extends DataBase
         $resultQuery->execute();
         return $resultQuery->fetchAll();
     }
-
-
-
 
     /**
      * Permet de modifier les rendez-vous
@@ -285,5 +279,52 @@ class Patients extends DataBase
         $resultQuery->bindValue(':id', $id, PDO::PARAM_STR);
         $resultQuery->execute();
         return $resultQuery->fetchAll();
+    }
+
+    public function deleteRdvPatient($id)
+    {
+
+        $base = $this->connectDb();
+        $query = "DELETE FROM `appointments` WHERE `idPatients`= :id";
+
+        $stmt = $base->prepare($query);
+        $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+    }
+
+    public function getSearch($search)
+    {
+        $base = $this->connectDb();
+        $query = "SELECT * FROM `patients` WHERE `lastname` LIKE :search OR `firstname` LIKE :search;";
+
+        $stmt = $base->prepare($query);
+        $stmt->bindValue(':search', $search, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->fetchall();
+    }
+
+    public function countPatient() 
+    {
+        $base = $this->connectDb();
+        $query = "SELECT count(*) as total FROM `patients`";
+
+        $stmt = $base->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    public function getPatientOffset(int $offset)
+    {
+        $base = $this->connectDb();
+
+        $query = "SELECT * FROM `patients` LIMIT 10 OFFSET :offset";
+
+        $stmt = $base->prepare($query);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
     }
 }

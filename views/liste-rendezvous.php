@@ -23,9 +23,9 @@ require_once('../controllers/controllerListeRdv.php');
 <body>
 
     <div class="global">
-        <div class="text-center fw-bold header">
+    <div class="text-center fw-bold">
             <a href="home.php">
-                <h1 class="text-center fw-bold title">Hôpital Velpo</h1>
+                <h1 class="text-center fw-bold title h1">Hôpital Velpo</h1>
             </a>
         </div>
 
@@ -85,7 +85,7 @@ require_once('../controllers/controllerListeRdv.php');
 
             <div class="text-center">
                 <div class="fw-bold fs-3 pt-5"> Le rendez-vous a été supprimé avec succès!</div>
-                <img src="../assets/ok.jpg" alt=" logo ok vert" class="w-25">
+                <img src="../assets/bien.png" alt=" logo ok vert" class="w-25">
 
                 <a class="menu nav-link active text-white" aria-current="page" href="liste-rendezvous.php"><span class="text-dark">
                         <form action="liste-rendezvous.php" method="POST">
@@ -98,14 +98,13 @@ require_once('../controllers/controllerListeRdv.php');
 
             <h1 class="text-center fw-bold">Liste des Rendez-vous de l'Hôpital</h1>
 
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">Nom</th>
                     <th scope="col">Prénom</th>
                     <th scope="col">Date et heure du Rendez-vous</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Téléphone</th>
                 </tr>
             </thead>
             <tbody>
@@ -116,7 +115,6 @@ require_once('../controllers/controllerListeRdv.php');
                         <th scope="row"><?= $rdv['firstname'] ?></th>
                         <td><?= $rdv['dateHour'] ?></td>
                         <td><?= $rdv['mail'] ?></td>
-                        <td><?= $rdv['phone'] ?></td>
                         <td><a href="rendezvous.php?id=<?= $rdv['id'] ?>"><button class="btn btn-dark">Détails</button></a></td>
                         <!-- Button trigger modal -->
                         <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">

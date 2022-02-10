@@ -92,7 +92,7 @@ if ($responseKeys["success"]) {
 
 if (isset($_POST['addRdv'])) {
     $duplicateRdvObj = new Patients();
-    if ($duplicateRdvObj->duplicateRdv($_POST['emailRdv'], $_POST['lastnameRdv'], $_POST['firstnameRdv']) == FALSE) {
+    if ($duplicateRdvObj->duplicateRdv($_POST['lastnameRdv'], $_POST['firstnameRdv']) == FALSE) {
 
         $arrayErrorsRdv["unknown"] = "Ce patient n'est pas enregistré";
     }
@@ -106,9 +106,8 @@ if (empty($arrayErrorsRdv) && isset($_POST['addRdv'])) {
     $firstnameRdv = htmlspecialchars(ucwords(trim($_POST['firstnameRdv']))); // ucwords pour mettre la 1ere lettre en majuscule
     $dateRdv = trim($_POST['dateRdv']);
     $timeRdv = trim($_POST['timeRdv']);
-    $mailRdv = htmlspecialchars(trim($_POST['emailRdv']));
     $rdvObj = new Patients();
-    $rdvObj->addAppt($lastnameRdv, $firstnameRdv, $dateRdv, $timeRdv, $mailRdv);
+    $rdvObj->addAppt($lastnameRdv, $firstnameRdv, $dateRdv, $timeRdv);
 }
 
 

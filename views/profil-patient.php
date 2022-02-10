@@ -20,9 +20,9 @@ require_once('../controllers/controllerProfilPatient.php');
 <body>
 
     <div class="global">
-        <div class="text-center fw-bold header">
+        <div class="text-center fw-bold">
             <a href="home.php">
-                <h1 class="text-center fw-bold title">Hôpital Velpo</h1>
+                <h1 class="text-center fw-bold title h1">Hôpital Velpo</h1>
             </a>
         </div>
 
@@ -71,10 +71,17 @@ require_once('../controllers/controllerProfilPatient.php');
 
         <?php if (isset($_POST['modify'])) { ?>
 
-            <div class="text-center">
+            <div class="text-center pb-3">
                 <div class="fw-bold fs-3 pt-5"> Les informations ont été mises à jour avec succès!</div>
-                <img src="../assets/ok.jpg" alt=" logo ok vert" class="w-25">
+                <img src="../assets/bien.png" alt=" logo ok vert" class="w-25">
             </div>
+            <a class="text-center " aria-current="page" href="liste-patients.php">
+                <span class="text-dark">
+                    <form action="liste-patients.php" method="POST">
+                        <input type="submit" name="showPatients" class="btn btn-dark" value="Retour à la liste des clients">
+                    </form>
+                </span>
+            </a>
 
             <?php } else {
 
@@ -83,24 +90,36 @@ require_once('../controllers/controllerProfilPatient.php');
 
                 <div class="text-center">
                     <div class="fw-bold fs-3 pt-5"> Les informations ont été supprimées avec succès!</div>
-                    <img src="../assets/ok.jpg" alt=" logo ok vert" class="w-25">
+                    <img src="../assets/bien.png" alt=" logo ok vert" class="w-25">
+                    <form action="liste-patients.php" method="POST">
+                        <input type="submit" name="showPatients" class="btn btn-dark" value="Retour à la liste des clients">
+                    </form>
                 </div>
 
             <?php } else { ?>
 
                 <?php foreach ($patientArray as $patient) { ?>
+
                     <div class="pt-5 text-center">
-                        <div class="text-center fw-bold fs-3"><?= $patient['lastname'] ?></div>
-                        <div class="text-center fw-bold fs-3"><?= $patient['firstname'] ?></div>
-                        <div class="text-center fw-bold"><?= $patient['birthdate'] ?></div>
-                        <div class="text-center fw-bold"><?= $patient['phone'] ?></div>
-                        <div class="text-center fw-bold"><?= $patient['mail'] ?></div>
+                        <div class="row justify-content-center pb-3">
+                            <div class="card col-lg-2">
+                                <div class="card-header">
+                                    <?= $patient['firstname'] ?> <?= $patient['lastname'] ?>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><?php $date = date_create($patient['birthdate']);
+                                                                echo date_format($date, 'd-m-Y') ?></li>
+                                    <li class="list-group-item"><?= $patient['phone'] ?></li>
+                                    <li class="list-group-item"><?= $patient['mail'] ?></li>
+                                </ul>
+                            </div>
+                        </div>
 
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Modifier le profil
                         </button>
-                        <form action="#" method="POST" class="pt-3">
+                        <form action="" method="POST" class="pt-3">
                             <input type="submit" name="delete" value="Supprimer le profil" class="btn btn-danger">
                         </form>
 
@@ -144,19 +163,20 @@ require_once('../controllers/controllerProfilPatient.php');
                             </div>
                         </div>
                     </div>
+                    <div class="text-center pt-3 pb-3 h1">Rendez-vous à venir:</div>
+                    <div class="text-center">
+                        <ul class="d-inline-block">
+                            <?php foreach ($profileRdvArray as $rdv) { ?>
+                                <li><?= $rdv['dateHour'] ?></li>
+
+                            <?php } ?>
+                        </ul>
+                    </div>
         <?php }
             }
         } ?>
 
-        <div class="text-center pt-3 pb-3 h1">Rendez-vous à venir:</div>
-        <div class="text-center" >
-            <ul class="d-inline-block">
-                <?php foreach ($profileRdvArray as $rdv) { ?>
-                    <li><?= $rdv['dateHour'] ?></li>
 
-                <?php } ?>
-            </ul>
-        </div>
         <footer class="footer">
         </footer>
     </div>

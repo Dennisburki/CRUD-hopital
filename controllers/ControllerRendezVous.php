@@ -13,8 +13,6 @@ if(isset($_GET['id'])){
     $id = $_GET['id'];
     $splitObj = new Patients();
     $splitArray = $splitObj->splitHour($id);
-
-
 }
 
 

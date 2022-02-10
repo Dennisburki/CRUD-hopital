@@ -24,10 +24,10 @@ var_dump($arrayErrorsRdv);
 
 <body>
 
-<div class="global">
-        <div class="text-center fw-bold header">
+    <div class="global">
+    <div class="text-center fw-bold">
             <a href="home.php">
-                <h1 class="text-center fw-bold title">Hôpital Velpo</h1>
+                <h1 class="text-center fw-bold title h1">Hôpital Velpo</h1>
             </a>
         </div>
 
@@ -60,7 +60,7 @@ var_dump($arrayErrorsRdv);
                             </div>
                         </li>
                         <li class="nav-item col-lg-3 d-lg-flex justify-content-lg-end">
-                        <div class="text-start text-lg-center">
+                            <div class="text-start text-lg-center">
                                 <a class="menu nav-link active text-white" aria-current="page" href="liste-rendezvous.php"><span class="text-dark">
                                         <form action="liste-rendezvous.php" method="POST">
                                             <input type="submit" name="showRdv" class="btn text-dark" value="Voir la liste des Rendez-vous">
@@ -80,11 +80,18 @@ var_dump($arrayErrorsRdv);
 
             <div class="text-center">
                 <div class="fw-bold fs-3 pt-5"> Rendez-vous créé avec succès!</div>
-                <img src="../assets/ok.jpg" alt=" logo ok vert" class="w-25">
+                <img src="../assets/bien.png" alt=" logo ok vert" class="w-25">
             </div>
             <div class="text-center">
                 <a href="home.php"><button class="btn btn-dark">Retour a l'accueil</button></a>
-                <a href="ajout-rendezvous.php"><button class="btn btn-dark">Ajouter un Rendez-vous</button></a>
+                <a href="ajout-rendezvous.php"><button class="btn btn-dark">Ajouter un autre Rendez-vous</button></a>
+            </div>
+            <div class="text-center pt-3">
+                <a href="liste-rendezvous.php"><span class="text-dark">
+                        <form action="liste-rendezvous.php" method="POST">
+                            <input type="submit" name="showRdv" class="btn btn-dark" value="Retour à la liste des Rendez-vous">
+                        </form>
+                    </span></a>
             </div>
         <?php } else { ?>
 
@@ -109,10 +116,6 @@ var_dump($arrayErrorsRdv);
 
                     <label for="timeRdv" class="pt-3 fw-bold">Heure du Rendez-vous :</label>
                     <input type="time" name="timeRdv" id="timeRdv" step="2" min="08:00" max="18:00" required value="<?= $_POST['timeRdv'] ?? "" ?>">
-
-                    <label for="emailRdv" class="pt-3 fw-bold">Adresse Email :</label><span class="fw-bold text-danger"><?= $arrayErrors["emailRdv"] ?? "" ?></span>
-                    <input type="emailRdv" name="emailRdv" id="emailRdv" placeholder="Ex: vladimir.poutine@urss.ru" required value="<?= $_POST['emailRdv'] ?? "" ?>">
-
                     <div class="pt-3 pb-3">
                         <input type="submit" name="addRdv" value="Ajouter" class="col-lg-2 btn btn-outline-dark">
                     </div>

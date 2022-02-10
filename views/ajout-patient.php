@@ -15,15 +15,15 @@
 
 <body>
 
-<div class="global">
-        <div class="text-center fw-bold header">
+    <div class="global m-0">
+    <div class="text-center fw-bold">
             <a href="home.php">
-                <h1 class="text-center fw-bold title">Hôpital Velpo</h1>
+                <h1 class="text-center fw-bold title h1">Hôpital Velpo</h1>
             </a>
         </div>
 
 
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg m-0">
             <div class="container-fluid m-0">
                 <button class="navbar-toggler border-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon text-white pt-1 pe-5">Menu</span>
@@ -52,7 +52,7 @@
                             </div>
                         </li>
                         <li class="nav-item col-lg-3 d-lg-flex justify-content-lg-end">
-                        <div class="text-start text-lg-center">
+                            <div class="text-start text-lg-center">
                                 <a class="menu nav-link active text-white" aria-current="page" href="liste-rendezvous.php"><span class="text-dark">
                                         <form action="liste-rendezvous.php" method="POST">
                                             <input type="submit" name="showRdv" class="btn text-dark" value="Voir la liste des Rendez-vous">
@@ -69,7 +69,7 @@
 
             <div class="text-center">
                 <div class="fw-bold fs-3 pt-5"> Patient Ajouté avec succès!</div>
-                <img src="../assets/ok.jpg" alt=" logo ok vert" class="w-25">
+                <img src="../assets/bien.png" alt=" logo ok vert" class="w-25">
             </div>
             <div class="text-center">
                 <a href="home.php"><button class="btn btn-dark">Retour a l'accueil</button></a>

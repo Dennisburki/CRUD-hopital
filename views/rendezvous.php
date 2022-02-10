@@ -20,9 +20,9 @@ require_once('../controllers/controllerRendezVous.php');
 <body>
 
     <div class="global">
-        <div class="text-center fw-bold header">
+    <div class="text-center fw-bold">
             <a href="home.php">
-                <h1 class="text-center fw-bold title">Hôpital Velpo</h1>
+                <h1 class="text-center fw-bold title h1">Hôpital Velpo</h1>
             </a>
         </div>
 
@@ -93,11 +93,6 @@ require_once('../controllers/controllerRendezVous.php');
 
                         <?php } ?>
 
-                        <label for="phone" class="pt-3 fw-bold">Numéro de téléphone :</label>
-                        <input type="number" name="phone" id="phone" placeholder="0606060606" value="<?= $rdv['phone'] ?>">
-
-                        <label for="email" class="pt-3 fw-bold">Adresse Email :</label>
-                        <input type="email" name="email" id="email" placeholder="Ex: vladimir.poutine@urss.ru" value="<?= $rdv['mail'] ?>">
                     <?php } ?>
 
                 </div>
@@ -115,7 +110,7 @@ require_once('../controllers/controllerRendezVous.php');
 
                     <div class="text-center">
                         <div class="fw-bold fs-3 pt-5"> Le rendez-vous a été mis à jour avec succès!</div>
-                        <img src="../assets/ok.jpg" alt=" logo ok vert" class="w-25">
+                        <img src="../assets/bien.png" alt=" logo ok vert" class="w-25">
                     </div>
 
                     <?php } else {
@@ -125,7 +120,7 @@ require_once('../controllers/controllerRendezVous.php');
 
                         <div class="text-center">
                             <div class="fw-bold fs-3 pt-5"> Le rendez-vous a été supprimé avec succès!</div>
-                            <img src="../assets/ok.jpg" alt=" logo ok vert" class="w-25">
+                            <img src="../assets/bien.png" alt=" logo ok vert" class="w-25">
                         </div>
 
                     <?php } else { ?>
@@ -145,15 +140,27 @@ require_once('../controllers/controllerRendezVous.php');
             <?php if (!isset($_POST['goUpdate'])) { ?>
 
                 <?php if (!isset($_POST['delete'])) { ?>
-                    <div class="text-center pb-5">
-                        <form action="" method="POST" class="pt-3">
+
+
+                    <div class="text-center pb-5 row">
+
+                        <form action="" method="POST" class="pt-3 col-lg-4">
                             <input type="submit" name="goUpdate" value="Mettre à jour le Rdv" class="btn btn-dark">
                         </form>
+                        
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-danger col-lg-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
                             Supprimer le Rendez-vous
                         </button>
+                        <a href="liste-rendezvous.php" class="col-lg-4 pt-3">
+                            <span class="text-dark">
+                                <form action="liste-rendezvous.php" method="POST">
+                                    <input type="submit" name="showRdv" class="btn btn-dark" value="Retour a la liste des Rendez-vous">
+                                </form>
+                            </span>
+                        </a>
                     </div>
+
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
